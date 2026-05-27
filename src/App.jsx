@@ -5,7 +5,7 @@ import ChatInterface from './ChatInterface';
 const socket = io.connect(
   window.location.hostname === "localhost" 
     ? "http://localhost:5000" 
-    : "https://private-chat-backend.onrender.com"
+    : "https://chatapp-mxuy.onrender.com"
 );
 const BREATHING_STYLES = [
   {
@@ -298,7 +298,7 @@ export default function App() {
       ...(authView === 'register' && { breathingStyle: selectedBreathing })
     };
 try {
-  const response = await fetch(`https://private-chat-backend.onrender.com/api/auth/${authView}`, {
+  const response = await fetch(`https://chatapp-mxuy.onrender.com/api/auth/${authView}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
