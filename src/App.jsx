@@ -5,7 +5,11 @@ import ChatInterface from './ChatInterface';
 const socket = io.connect(
   window.location.hostname === "localhost" 
     ? "http://localhost:5000" 
-    : "https://chatapp-mxuy.onrender.com"
+    : "https://chatapp-mxuy.onrender.com",
+  {
+    transports: ["websocket"],
+    upgrade: false
+  }
 );
 const BREATHING_STYLES = [
   {

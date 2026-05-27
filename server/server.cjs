@@ -7,16 +7,27 @@ const http = require('http');
 const { Server } = require('socket.io');
 
 const app = express();
-// 1. INITIALIZE MIDDLEWARE FIRST - Updated to allow dynamic production origins
-app.use(cors({ origin: "*" }));
+// 1. INITIALIZE MIDDLEWARE FIRST - Completely open CORS configuration
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 app.use(bodyParser.json());
 
 const server = http.createServer(app);
+
+// Configure Socket.io with explicit fallback matching settings
 const io = new Server(server, {
-  cors: { origin: "*", methods: ["GET", "POST"] }
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+    credentials: true
+  },
+  transports: ["websocket", "polling"] // Allow fallback configurations if proxies drop websocket lines
 });
 
-// 2. DATABASE CONNECTION - Updated to check for MongoDB Atlas Environment Variables
+// 2. DATABASE CONNECTION
 const mongoURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/demonSlayerDB';
 mongoose.connect(mongoURI)
   .then(() => console.log('Connected to Database'))
